@@ -1,0 +1,21 @@
+Import('os_env')
+
+sources = [
+    'entry.S',
+    'kernel.c',
+    'uart.c',
+    'page.c',
+    'trap.c',
+    'trap.S',
+    'batch.c',
+    'printf.c',
+    'app.S'
+]
+
+objects = []
+
+for src in sources:
+    obj = '%s.o' % (src)
+    objects.append(os_env.Object(target=obj, source=src))
+
+Return('objects', stop=True)

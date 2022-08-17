@@ -1,0 +1,18 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "launch gdb",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/hello.elf",
+            "miDebuggerPath": "/home/ug/riscv64-unknown-elf-gcc-8.3.0-2020.04.1-x86_64-linux-ubuntu14/bin/riscv64-unknown-elf-gdb",
+            "miDebuggerServerAddress": "localhost:1234",
+            "MIMode": "gdb",
+            "cwd": "${workspaceFolder}"
+        },
+    ]
+}

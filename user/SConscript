@@ -1,0 +1,27 @@
+Import('env')
+
+user_env = env.Clone()
+linkScript = 'user/hello_user_mode.ld'
+user_env['LINKFLAGS'] += ' -T {}'.format(linkScript)
+
+sources = [
+    'user_lib.c',
+    'hello_user_mode.c'
+]
+
+objects = []
+
+for src in sources:
+    obj = '%s.o' % (src)
+    objects.append(user_env.Object(target=obj, source=src))
+
+user_env.Program('#bin/hello_user_mode.elf', objects)
+helloUserModeBin=user_env.ElfToBin(source='#bin/hello_user_mode.elf',target='#bin/hello_user_mode.bin')
+user_env.DAsm(source='#bin/hello_user_mode.elf',target='#bin/hello_user_mode.asm')
+user_env.GenSym(source='#bin/hello_user_mode.elf',target='#bin/hello_user_mode.sym')
+
+userBins = [
+    helloUserModeBin
+]
+
+Return('userBins')

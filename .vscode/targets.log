@@ -1,0 +1,364 @@
+make all --print-data-base --no-builtin-variables --no-builtin-rules --question
+make: *** No rule to make target 'all'.  Stop.
+
+# GNU Make 4.3
+# Built for x86_64-pc-linux-gnu
+# Copyright (C) 1988-2020 Free Software Foundation, Inc.
+# License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+# This is free software: you are free to change and redistribute it.
+# There is NO WARRANTY, to the extent permitted by law.
+
+# Make data base, printed on Sat Aug 13 13:44:29 2022
+
+# Variables
+
+# environment
+GDK_BACKEND = x11
+# environment
+LC_ALL = C
+# environment
+GNOME_SHELL_SESSION_MODE = ubuntu
+# environment
+SSH_AGENT_LAUNCHER = gnome-keyring
+# makefile (from 'Makefile', line 3)
+QEMUDBGFLAGS := -nographic -smp 1 -machine virt -bios none 
+# environment
+SNAP_INSTANCE_KEY = 
+# environment
+GJS_DEBUG_OUTPUT = stderr
+# environment
+LC_NAME = en_US.UTF-8
+# environment
+LC_NUMERIC = en_US.UTF-8
+# environment
+VSCODE_CWD = /home/ug
+# environment
+LC_ADDRESS = en_US.UTF-8
+# default
+MAKE_COMMAND := make
+# environment
+QT_ACCESSIBILITY = 1
+# automatic
+@D = $(patsubst %/,%,$(dir $@))
+# environment
+SNAP_INSTANCE_NAME = code
+# environment
+GDK_PIXBUF_MODULEDIR = /snap/code/104/usr/lib/x86_64-linux-gnu/gdk-pixbuf-2.0/2.10.0/loaders
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# default
+.VARIABLES := 
+# environment
+PWD = /home/ug/play/LearnOS
+# automatic
+%D = $(patsubst %/,%,$(dir $%))
+# environment
+LSCOLORS = Gxfxcxdxbxegedabagacad
+# environment
+XDG_DATA_DIRS = /usr/local/share/:/usr/share/:/var/lib/snapd/desktop
+# environment
+OLDPWD = /home/ug
+# automatic
+^D = $(patsubst %/,%,$(dir $^))
+# automatic
+%F = $(notdir $%)
+# environment
+VSCODE_CODE_CACHE_PATH = /home/ug/.config/Code/CachedData/6d9b74a70ca9c7733b29f0456fd8195364076dda
+# environment
+LANG = C
+# environment
+XAUTHORITY = /run/user/1000/.mutter-Xwaylandauth.EIUVQ1
+# default
+.LOADED := 
+# default
+.INCLUDE_DIRS = /usr/local/include /usr/include /usr/include
+# makefile
+MAKEFLAGS = pqrR
+# makefile
+CURDIR := /home/ug/play/LearnOS
+# environment
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
+# automatic
+*D = $(patsubst %/,%,$(dir $*))
+# environment
+MFLAGS = -pqrR
+# environment
+SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
+# default
+.SHELLFLAGS := -c
+# environment
+WAYLAND_DISPLAY = wayland-0
+# automatic
++D = $(patsubst %/,%,$(dir $+))
+# environment
+XDG_SESSION_DESKTOP = ubuntu
+# makefile (from 'Makefile', line 1)
+MAKEFILE_LIST := Makefile
+# environment
+SNAP_REEXEC = 
+# automatic
+@F = $(notdir $@)
+# environment
+ZSH = /home/ug/.oh-my-zsh
+# environment
+VSCODE_PID = 2922
+# environment
+XDG_SESSION_TYPE = wayland
+# automatic
+?D = $(patsubst %/,%,$(dir $?))
+# environment
+BAMF_DESKTOP_FILE_HINT = /var/lib/snapd/desktop/applications/code_code.desktop
+# environment
+SESSION_MANAGER = local/ug-pc:@/tmp/.ICE-unix/1348,unix/ug-pc:/tmp/.ICE-unix/1348
+# automatic
+*F = $(notdir $*)
+# environment
+CHROME_DESKTOP = code-url-handler.desktop
+# environment
+DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
+# automatic
+<D = $(patsubst %/,%,$(dir $<))
+# environment
+VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
+# default
+MAKE_HOST := x86_64-pc-linux-gnu
+# environment
+GNOME_DESKTOP_SESSION_ID = this-is-deprecated
+# makefile
+SHELL = /bin/sh
+# makefile (from 'Makefile', line 2)
+QEMUFLAGS := -nographic -smp 1 -machine virt -bios none -display none
+# default
+MAKECMDGOALS := all
+# environment
+XMODIFIERS = @im=ibus
+# environment
+GJS_DEBUG_TOPICS = JS ERROR;JS LOG
+# environment
+SHLVL = 0
+# environment
+MAKELEVEL := 0
+# default
+MAKE = $(MAKE_COMMAND)
+# environment
+SNAP_COOKIE = 9WmElDf5bzlZyyFlc6B8aTCyrQgI5GGRPXbEJ6oo1X-NzItO1e-_
+# environment
+PATH = /home/ug/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/ug/.local/bin/:/home/ug/riscv64-unknown-elf-gcc-8.3.0-2020.04.1-x86_64-linux-ubuntu14/bin
+# default
+MAKEFILES := 
+# environment
+LANGUAGE = en_US
+# environment
+LC_MONETARY = en_US.UTF-8
+# automatic
+^F = $(notdir $^)
+# environment
+SNAP_USER_COMMON = /home/ug/snap/code/common
+# environment
+LC_TIME = en_US.UTF-8
+# environment
+SNAP = /snap/code/104
+# environment
+INVOCATION_ID = 1acb2acd291e4c5ebfd412aa7ce11a97
+# environment
+SNAP_REVISION = 104
+# environment
+SNAP_REAL_HOME = /home/ug
+# makefile (from 'Makefile', line 6)
+KERNEL_ELF := bin/hello.elf
+# makefile (from 'Makefile', line 5)
+KERNEL_BIN := bin/hello.bin
+# environment
+USERNAME = ug
+# environment
+GNOME_SETUP_DISPLAY = :1
+# environment
+LC_TELEPHONE = en_US.UTF-8
+# automatic
+?F = $(notdir $?)
+# environment
+XDG_CURRENT_DESKTOP = Unity
+# environment
+LS_COLORS = 
+# automatic
++F = $(notdir $+)
+# environment
+LESS = -R
+# environment
+DESKTOP_SESSION = ubuntu
+# environment
+ORIGINAL_XDG_CURRENT_DESKTOP = ubuntu:GNOME
+# 'override' directive
+GNUMAKEFLAGS := 
+# environment
+LOGNAME = ug
+# environment
+GIO_LAUNCHED_DESKTOP_FILE = /var/lib/snapd/desktop/applications/code_code.desktop
+# environment
+SNAP_ARCH = amd64
+# makefile
+.DEFAULT_GOAL := run
+# environment
+SYSTEMD_EXEC_PID = 1369
+# makefile (from 'Makefile', line 1)
+QEMU := qemu-system-riscv64
+# environment
+DISPLAY = :0
+# environment
+USER = ug
+# environment
+GTK_MODULES = gail:atk-bridge
+# default
+MAKE_VERSION := 4.3
+# environment
+DISABLE_WAYLAND = 1
+# environment
+SNAP_DATA = /var/snap/code/104
+# environment
+SNAP_CONTEXT = 9WmElDf5bzlZyyFlc6B8aTCyrQgI5GGRPXbEJ6oo1X-NzItO1e-_
+# environment
+MANAGERPID = 1240
+# environment
+LC_MEASUREMENT = en_US.UTF-8
+# environment
+GIO_LAUNCHED_DESKTOP_FILE_PID = 2875
+# environment
+PAGER = less
+# environment
+_ = /snap/code/104/usr/share/code/code
+# environment
+LC_PAPER = en_US.UTF-8
+# environment
+XDG_RUNTIME_DIR = /run/user/1000
+# environment
+GDK_PIXBUF_MODULE_FILE = /home/ug/snap/code/common/.cache/gdk-pixbuf-loaders.cache
+# environment
+JOURNAL_STREAM = 8:27266
+# environment
+XDG_SESSION_CLASS = user
+# environment
+VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
+# environment
+HOME = /home/ug
+# environment
+QT_IM_MODULE = ibus
+# environment
+ELECTRON_RUN_AS_NODE = 1
+# environment
+VSCODE_IPC_HOOK = /run/user/1000/vscode-c17dc5ec-1.70.1-main.sock
+# environment
+SNAP_NAME = code
+# environment
+GSETTINGS_SCHEMA_DIR = /snap/code/104/usr/share/glib-2.0/schemas
+# environment
+PAPERSIZE = letter
+# default
+.RECIPEPREFIX := 
+# automatic
+<F = $(notdir $<)
+# environment
+SNAP_VERSION = 6d9b74a7
+# default
+SUFFIXES := 
+# environment
+VSCODE_CLI = 1
+# environment
+ELECTRON_NO_ATTACH_CONSOLE = 1
+# environment
+SNAP_COMMON = /var/snap/code/common
+# default
+.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs archives jobserver output-sync check-symlink load
+# environment
+SNAP_USER_DATA = /home/ug/snap/code/104
+# environment
+XDG_MENU_PREFIX = gnome-
+# environment
+GDMSESSION = ubuntu
+# environment
+LC_IDENTIFICATION = en_US.UTF-8
+# environment
+SNAP_LIBRARY_PATH = /var/lib/snapd/lib/gl:/var/lib/snapd/lib/gl32:/var/lib/snapd/void
+# variable set hash-table stats:
+ 
+# Load=133/1024=13%, Rehash=0, Collisions=5/163=3%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+# . (device 2051, inode 5382111): 12 files, no impossibilities.
+
+# 12 files, no impossibilities in 1 directories.
+
+# Implicit Rules
+
+# No implicit rules.
+
+# Files
+
+# Not a target:
+Makefile:
+#  Implicit rule search has been done.
+#  Last modified 2022-08-13 13:43:24.025187896
+#  File has been updated.
+#  Successfully updated.
+
+dbg: build
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 14):
+	$(A) $(QEMU) $(QEMUDBGFLAGS) -kernel $(KERNEL_BIN) -s -S &
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+all:
+#  Command line target.
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has not been updated.
+
+run:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 11):
+	$(A) $(QEMU) $(QEMUFLAGS) -kernel $(KERNEL_BIN)
+
+# Not a target:
+build:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+gdb:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 18):
+	riscv64-unknown-elf-gdb $(KERNEL_ELF) -x ./gdbinit
+
+# files hash-table stats:
+# Load=8/1024=1%, Rehash=0, Collisions=0/19=0%
+# VPATH Search Paths
+
+# No 'vpath' search paths.
+
+# No general ('VPATH' variable) search path.
+
+# strcache buffers: 1 (0) / strings = 20 / storage = 167 B / avg = 8 B
+# current buf: size = 8162 B / used = 167 B / count = 20 / avg = 8 B
+
+# strcache performance: lookups = 28 / hit rate = 28%
+# hash-table stats:
+# Load=20/8192=0%, Rehash=0, Collisions=0/28=0%
+# Finished Make data base on Sat Aug 13 13:44:29 2022
+
+ 

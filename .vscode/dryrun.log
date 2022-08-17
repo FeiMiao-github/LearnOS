@@ -1,0 +1,5 @@
+make --dry-run --keep-going --print-directory
+make: Entering directory '/home/ug/play/LearnOS'
+qemu-system-riscv64 -nographic -smp 1 -machine virt -bios none -display none -kernel bin/hello.bin
+make: Leaving directory '/home/ug/play/LearnOS'
+ 
