@@ -165,10 +165,10 @@ typedef void(*trap_handler_t)(context_t* ctx);
 
 extern void user_main(void);
 
-uint8_t USER_STACK[STACK_SIZE];
-uint8_t KERN_STACK[STACK_SIZE];
-uint8_t *USER_STACK_TOP =  USER_STACK + STACK_SIZE - 1;
-uint8_t *KERN_STACK_TOP =  KERN_STACK + STACK_SIZE - 1;
+static uint8_t USER_STACK[STACK_SIZE];
+static uint8_t KERN_STACK[STACK_SIZE];
+static uint8_t *USER_STACK_TOP =  USER_STACK + STACK_SIZE - 1;
+static uint8_t *KERN_STACK_TOP =  KERN_STACK + STACK_SIZE - 1;
 
 static context_t user_ctx;
 
@@ -345,11 +345,5 @@ void schedule()
 
 void user_main(void)  {
     printf("user_main run !\n");
-    // while (true);
-        // int i = 0;
-        // while (i < 100000)
-        //     i++;
-
-        // int* ptr = 0;
-        // *ptr = 100;
+    while (true);
 }

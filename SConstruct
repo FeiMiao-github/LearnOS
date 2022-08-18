@@ -2,11 +2,11 @@ import os
 
 PREFIX = 'riscv64-unknown-elf-'
 CXX = PREFIX + 'g++'
-CXXFLAGS = '-nostdlib -fno-builtin -mcmodel=medany -std=c++2a -g'
+CXXFLAGS = '-nostdlib -fno-builtin -mcmodel=medany -march=rv64imafdcsuh -mabi=lp64d -std=c++2a -g'
 CC = PREFIX + 'gcc'
-CCFLAGS = '-nostdlib -fno-builtin -mcmodel=medany -g -Wall'
+CCFLAGS = '-nostdlib -fno-builtin -mcmodel=medany -march=rv64imafdcsuh -mabi=lp64d -g -Wall'
 LD = PREFIX + 'ld'
-LINKFLAGS = '-nostdlib -fno-builtin -mcmodel=medany'
+LINKFLAGS = '-nostdlib -fno-builtin -mcmodel=medany -march=rv64imafdcsuh -mabi=lp64d '
 AR = PREFIX + 'ar'
 OBJCOPY = PREFIX + 'objcopy'
 OBJDUMP = PREFIX + 'objdump'
@@ -45,6 +45,9 @@ userBins =  env.SConscript(dirs='user', variant_dir='build/user', duplicate=0, e
 os_env = env.Clone()
 linkScript = 'os/linker.ld'
 os_env['LINKFLAGS'] += ' -T {}'.format(linkScript)
+os_env['CPPDEFINES'] = {
+    'PAGE_TEST': None,
+}
 
 os_objects = os_env.SConscript(dirs='os', variant_dir='build/os', duplicate=0, exports ='os_env')
 os_env.Depends(target=os_objects, dependency=userBins)

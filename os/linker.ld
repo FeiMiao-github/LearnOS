@@ -12,30 +12,24 @@ SECTIONS
     . = BASE_ADDRESS;
     skernel = .;
 
-    stext = .;
     .text : {
         *(.text.entry)
         *(.text .text.*)
     } > ram
 
     . = ALIGN(4K);
-    etext = .;
-    srodata = .;
     .rodata : {
         *(.rodata .rodata.*)
         *(.srodata .srodata.*)
     } > ram
 
     . = ALIGN(4K);
-    erodata = .;
-    sdata = .;
     .data : {
         *(.data .data.*)
         *(.sdata .sdata.*)
     } > ram
 
     . = ALIGN(4K);
-    edata = .;
     .bss : {
         PROVIDE(_bss_start = .);
         *(.bss.stack)
@@ -46,8 +40,6 @@ SECTIONS
     } > ram
 
     . = ALIGN(4K);
-    ebss = .;
-    ekernel = .;
 
     /DISCARD/ : {
        *(.eh_frame)
