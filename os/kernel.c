@@ -1,11 +1,12 @@
 #include "uart.h"
-#include "trap.h"
 #include "page.h"
-#include "batch.h"
+#include "type.h"
 
 #ifdef PAGE_TEST
 extern void page_alloc_test();
 #endif // PAGE_TEST
+extern void sched_init(void);
+extern void schedule();
 
 int os_main(void)
 {
@@ -17,9 +18,11 @@ int os_main(void)
 	page_alloc_test();
 #endif // PAGE_TEST
 
-	trap_init();
-	sche_init();
+	sched_init();
 	schedule();
-	while (1) {}
+
+	while (true)
+	{
+	}
 	return 0;
 }

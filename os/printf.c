@@ -1,7 +1,4 @@
-#include <stddef.h>
-#include <stdarg.h>
-#include <sys/types.h>
-
+#include "type.h"
 #include "uart.h"
 /*
  * ref: https://github.com/cccriscv/mini-riscv-os/blob/master/05-Preemptive/lib.c
@@ -89,7 +86,7 @@ static int _vsnprintf(char * out, size_t n, const char* s, va_list vl)
 				break;
 			}
 			case 'u': {
-				uint64_t num = longarg ? va_arg(vl, u_int64_t) : va_arg(vl, uint32_t);
+				uint64_t num = longarg ? va_arg(vl, uint64_t) : va_arg(vl, uint32_t);
 				uint64_t remainder = 0;
 				if (!out)
 				{

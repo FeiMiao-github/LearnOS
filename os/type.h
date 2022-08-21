@@ -3,5 +3,7 @@
 
 #include <stdint.h>
 #include <stddef.h>
+#include <stdbool.h>
+#include <stdarg.h>
 
 #endif // TYPE_H__

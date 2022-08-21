@@ -5,11 +5,10 @@ sources = [
     'kernel.c',
     'uart.c',
     'page.c',
-    'trap.c',
-    'trap.S',
-    'batch.c',
     'printf.c',
-    'app.S'
+    'app.S',
+    'sched.c',
+    'switch.S'
 ]
 
 objects = []
