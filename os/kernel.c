@@ -5,8 +5,9 @@
 #ifdef PAGE_TEST
 extern void page_alloc_test();
 #endif // PAGE_TEST
+
 extern void sched_init(void);
-extern void schedule();
+extern void trap_init();
 
 int os_main(void)
 {
@@ -18,8 +19,8 @@ int os_main(void)
 	page_alloc_test();
 #endif // PAGE_TEST
 
+	trap_init();
 	sched_init();
-	schedule();
 
 	while (true)
 	{

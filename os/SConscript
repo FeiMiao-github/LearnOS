@@ -8,7 +8,9 @@ sources = [
     'printf.c',
     'app.S',
     'sched.c',
-    'switch.S'
+    'switch.S',
+    'trap.S',
+    'trap.c'
 ]
 
 objects = []

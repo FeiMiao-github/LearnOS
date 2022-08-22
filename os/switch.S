@@ -1,12 +1,5 @@
 #include "riscv.h"
-
-.altmacro
-.macro SAVE_GP n reg
-    sd x\n, \n*8(\reg)
-.endm
-.macro LOAD_GP n reg
-    ld x\n, \n*8(\reg)
-.endm
+#include "util.S"
 
 	.text;                                                             
 	.globl __switch_to;                                                
@@ -21,15 +14,19 @@ __switch_to:
 	.rept 26;                                                           
 		SAVE_GP % n t6;                                                    
 	.set n, n + 1;                                                      
-	.endr;                                                              
+	.endr;
+
+	mv t5, t6;
+	csrr t6, mscratch;
+	sd t6, 31*8(t5);                                                            
 1: 
-	csrw mscratch, a0;                                              
-	mv t6, a0;                                                          
+	csrw mscratch, a0;
+	mv t6, a0;
 	ld x1, 1*8(t6);                                                   
 	ld x3, 3*8(t6);                                                   
 	.set n, 5;                                                          
-	.rept 26;                                                           
+	.rept 27;                                                           
 		LOAD_GP % n t6;                                                       
 	.set n, n + 1;                                                      
-	.endr;                                                              
+	.endr;
 	ret;

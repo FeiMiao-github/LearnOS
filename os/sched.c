@@ -1,9 +1,8 @@
-#include "trap.h"
 #include "type.h"
 #include "ctx.h"
 
 #define STACK_SIZE (4096)
-#define TASK_NUM   (2)
+#define TASK_NUM   (3)
 
 typedef struct _stack_t {
     uint8_t* base;
@@ -20,6 +19,8 @@ extern void __switch_to(void* ctx);
 
 static void task0();
 static void task1();
+static void task2();
+static void schedule();
 
 static uint8_t stack_task[TASK_NUM][STACK_SIZE];
 
@@ -32,6 +33,10 @@ static context_t task_context[] = {
     {
         .x1.ra =  (uint64_t)&task1,
         .x2.sp = (uint64_t)(stack_task[1] + STACK_SIZE - 1)
+    },
+    {
+        .x1.ra =  (uint64_t)&task2,
+        .x2.sp = (uint64_t)(stack_task[2] + STACK_SIZE - 1)
     }
 };
 
@@ -56,14 +61,30 @@ static void task1()
     }
 }
 
+static void task2()
+{
+#ifdef TRAP_TEST
+    void trap_test();
+#endif // TRAP_TEST
+    while (true)
+    {
+        printf("task 2 run!\n");
+#ifdef TRAP_TEST
+        trap_test();
+#endif // TRAP_TEST
+        // printf("return from exception !\n");
+        schedule();
+    }
+}
+
 void sched_init(void)
 {
     write_mscratch(0);
+    schedule();
 }
 
-void schedule()
+static void schedule()
 {
-    printf("[SCHED] scheduling task !\n");
     current_task = (current_task + 1) % num_of_tasks;
     __switch_to(&task_context[current_task]);
 }

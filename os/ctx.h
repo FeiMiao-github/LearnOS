@@ -118,9 +118,23 @@ typedef struct {
     uint64_t mpec;
 } context_t;
 
+typedef void(*trap_handler_t)();
+
 static inline void write_mscratch(uint64_t mscratch)
 {
     __asm__ volatile("csrw mscratch, %0"::"r"(mscratch));
+}
+
+static inline void write_mtvec(trap_handler_t trap_handler)
+{
+	__asm__ volatile("csrw mtvec, %0" :: "r" (trap_handler));
+}
+
+static inline uint64_t read_mtvec()
+{
+    uint64_t ret = 0;
+    __asm__ volatile("csrr %0, mtvec" : "=g"(ret));
+    return ret;
 }
 
 #endif // CTX_H__
