@@ -12,7 +12,7 @@ extern void trap_init();
 int os_main(void)
 {
 	clear_bss();
-	lib_puts("Hello OS!\n");
+	uart_puts("Hello OS!\n");
 
 	page_init();
 #ifdef PAGE_TEST

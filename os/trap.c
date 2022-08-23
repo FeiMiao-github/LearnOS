@@ -1,27 +1,51 @@
 #include "ctx.h"
 #include "riscv.h"
 #include "type.h"
-#include <stdint.h>
 
-#define MAX_EXCEPTIONS (8)
+#define MAX_EXCEPTIONS (16)
+#define MAX_INTERRUPTS (12)
 
 extern void __alltraps(void);
 extern int printf(const char* s, ...);
 
 static void print_exception(uint64_t mcause);
+static void print_interrupt(uint64_t mcause);
 
 static uint64_t* ptmp = 0;
 static uint64_t tmp = 0;
 
-const char* EXCEPTIONS[MAX_EXCEPTIONS] = {
-    "UNKNOWN", // 0
-    "UNKNOWN", // 1
-    "UNKNOWN", // 2
-    "UNKNOWN", // 3
-    "UNKNOWN", // 4
-    "UNKNOWN", // 5
-    "UNKNOWN", // 6
-    "Store/AMO access fault" // 7
+const char* const EXCEPTIONS[MAX_EXCEPTIONS] = {
+    "Instruction address misaligned", // 0
+    "Instruction access fault", // 1
+    "Illegal instruction", // 2
+    "Breakpoint", // 3
+    "Load address misaligned", // 4
+    "Load access fault", // 5
+    "Store/AMO address misaligned", // 6
+    "Store/AMO access fault", // 7
+    "Environment call from U-mode", // 8
+    "Environment call from S-mode", // 9
+    "Reserved", // 10
+    "Environment call from M-mode", // 11
+    "Instruction page fault", // 12
+    "Load page fault", // 13
+    "Reserved", // 14
+    "Store/AMO page fault", // 15
+};
+
+const char* const INTERRUPTS[MAX_INTERRUPTS] = {
+    "Reserved", // 0
+    "Supervisor software interrupt", // 1
+    "Reserved", // 2
+    "Machine software interrupt", // 3
+    "Reserved", // 4
+    "Supervisor timer interrupt", // 5
+    "Reserved", // 6
+    "Machine timer interrupt", // 7
+    "Reserved", // 8
+    "Supervisor external interrupt", // 9
+    "Reserved", // 10
+    "Machine external interrupt", // 11
 };
 
 void trap_init()
@@ -33,7 +57,7 @@ void trap_handler(uint64_t mcause, context_t* ctx)
 {
     if (INTERRUPT_BIT & mcause)
     {
-        // printf("interrupt code: 0x%lx\n", (~INTERRUPT_BIT) & mcause);
+        print_interrupt((~INTERRUPT_BIT) & mcause);
     }
     else
     {
@@ -60,5 +84,17 @@ static void print_exception(uint64_t mcause)
     else
     {
         printf("%s (code: 0x%lx)\n", EXCEPTIONS[mcause], mcause);
+    }
+}
+
+static void print_interrupt(uint64_t mcause)
+{
+    if (mcause >= MAX_INTERRUPTS)
+    {
+        printf("unknown interrupt code: 0x%lx\n", mcause);
+    }
+    else
+    {
+        printf("%s (code: 0x%lx)\n", INTERRUPTS[mcause], mcause);
     }
 }

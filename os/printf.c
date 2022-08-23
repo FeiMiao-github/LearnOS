@@ -134,11 +134,11 @@ static int _vprintf(const char* s, va_list vl)
 {
 	int res = _vsnprintf(NULL, -1, s, vl);
 	if (res+1 >= sizeof(out_buf)) {
-		lib_puts("error: output string size overflow\n");
+		uart_puts("error: output string size overflow\n");
 		while(1) {}
 	}
 	_vsnprintf(out_buf, res + 1, s, vl);
-	lib_puts(out_buf);
+	uart_puts(out_buf);
 	return res;
 }
 
