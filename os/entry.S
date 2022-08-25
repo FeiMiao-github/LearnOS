@@ -7,16 +7,21 @@
 _start:
     # setup stacks per hart
     csrr t0, mhartid                # read current hart id
-    slli t0, t0, 10                 # shift left the hart id by 1024
-    la   sp, stacks + STACK_SIZE    # set the initial stack pointer 
-                                    # to the end of the stack space
-    add  sp, sp, t0                 # move the current hart stack pointer
-                                    # to its place in the stack space
-
-    # park harts with id != 0
-    csrr a0, mhartid                # read current hart id
-    bnez a0, park                   # if we're not on the hart 0
+    mv tp, t0                       # keep CPU's hartid in its tp for later usage.
+    bnez t0, park		            # if we're not on the hart 0
                                     # we park the hart
+
+	# Set all bytes in the BSS section to zero.
+	la	a0, _bss_start
+	la	a1, _bss_end
+	bgeu	a0, a1, 2f
+1:
+	sw	zero, (a0)
+	addi	a0, a0, 4
+	bltu	a0, a1, 1b
+2:
+    la	sp, stacks_top
+
   
     li t0, (1 << 53) - 1
     csrw pmpaddr0, t0
@@ -32,3 +37,4 @@ park:
 
 stacks:
     .skip STACK_SIZE * 4            # allocate space for the harts stacks
+stacks_top:

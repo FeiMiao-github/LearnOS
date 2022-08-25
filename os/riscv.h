@@ -46,9 +46,10 @@
 #define PMP_NA4 0x10
 #define PMP_NAPOT 0x18
 
+#define MSTATUS_MIE (1 << 3)
+
 // TRAP
 // if 1, interrupt; otherwise exception
 #define INTERRUPT_BIT (~((0x0lu - 1) >> 1)) 
-
 
 #endif // RISCV_H__

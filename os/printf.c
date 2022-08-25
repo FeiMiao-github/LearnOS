@@ -1,5 +1,9 @@
-#include "type.h"
-#include "uart.h"
+#include <stdarg.h>
+#include <stddef.h>
+#include <stdint.h>
+
+void uart_puts(const char *);
+
 /*
  * ref: https://github.com/cccriscv/mini-riscv-os/blob/master/05-Preemptive/lib.c
  */

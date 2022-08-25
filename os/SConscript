@@ -10,7 +10,8 @@ sources = [
     'sched.c',
     'switch.S',
     'trap.S',
-    'trap.c'
+    'trap.c',
+    'plic.c'
 ]
 
 objects = []

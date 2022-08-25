@@ -1,5 +1,5 @@
-#include "printf.h"
-#include "type.h"
+#include <stdint.h>
+#include <stddef.h>
 
 #define PAEG_BIT_OFFSET    (12)
 #define PAGE_SIZE          (4096)
@@ -23,6 +23,8 @@ extern uint64_t _heap_size;
 extern uint64_t _bss_start;
 extern uint64_t _bss_end;
 extern uint64_t etext;
+
+void printf(const char* fmt, ...);
 
 typedef struct {
     uint8_t flags;
@@ -74,7 +76,7 @@ int page_init()
     return 0;
 }
 
-static inline set_used_flag(Page_t* start, uint64_t num)
+static inline void set_used_flag(Page_t* start, uint64_t num)
 {
     for (uint64_t i = 0; i < num; i++)
     {

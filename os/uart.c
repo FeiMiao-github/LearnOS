@@ -1,103 +1,87 @@
 /**
 	reference: http://byterunner.com/16550.html
 */
+#include <stdbool.h>
+#include "ctx.h"
 #include "uart.h"
-#include "type.h"
 
-static uart_16550a_reg_t *uart0 = (uart_16550a_reg_t*)UART0;
-
-static void disable_uart_interrupt(uart_16550a_reg_t *reg) {
-	uart0->IER.MSI = 0;
-	uart0->IER.OTHER = 0;
-	uart0->IER.RHRI = 0;
-	uart0->IER.RISI = 0;
-	uart0->IER.THRI = 0;
-}
-
-static void enable_divisor_latch(uart_16550a_reg_t *reg) {
-	reg->LCR.DIVISOR_LATCH_ENABLE = 1;
-}
-
-static void disable_divisor_latch(uart_16550a_reg_t *reg) {
-	reg->LCR.DIVISOR_LATCH_ENABLE = 0;
-}
-
-/*----------------------------------------------------------------
-All boards will typically have the 1.8432 MHZ crystal. Some Byte Runner boards will also allow selection of the 7.3728 MHZ clock.
-
-   BAUD RATE  1.8432 MHZ clock  7.3728 MHZ clock
-
-   50           2304               9216
-   75           1536               6144
-   110          1047               4188
-   134.5         857               3428
-   150           768               3072
-   300           384               1536
-   600           192                768
-   1200           96                384
-   2400           48                192
-   3600           32                128
-   4800           24                 96
-   7200           16                 64
-   9600           12                 48
-   19.2K           6                 24
-   38.4K           3                 12
-   57.6K           2                  8
-   115.2K          1                  4
-   230.4K       not possible          2
-   460.8K       not possible          1
-------------------------------------------------------------*/
-static void set_baud_rate(uart_16550a_reg_t *reg, uint16_t baud) {
-	enable_divisor_latch(reg);
-	/* 
-		split the value of 3(0x0003) into two bytes, DLL stores the low byte,
-		DLM stores the high byte.
-	*/
-	uart0->DLL = baud & 0xFF;
-	uart0->DLM = (baud >> 8) & 0xFF;
-	disable_divisor_latch(reg);
-}
-
-static void set_lcr(uart_16550a_reg_t *reg, LCR_t* lcr)
-{
-	reg->LCR = *lcr;
-}
-
-static bool is_transmit_holding_ready(uart_16550a_reg_t *reg)
-{
-	return reg->LSR.TRANSMIT_HOLDING_EMPTY == 1;
-}
-
-// int uart_putc(char ch)
-// {
-// 	while ((uart_read_reg(LSR) & LSR_TX_IDLE) == 0);
-// 	return uart_write_reg(THR, ch);
-// }
+void printf(const char* s, ...);
 
 void uart_init()
 {
-	disable_uart_interrupt(uart0);
-	set_baud_rate(uart0, 0x3);
-	
-	/*
-	 * Continue setting the asynchronous data communication format.
-	 * - number of the word length: 8 bits
-	 * - number of stop bits：1 bit when word length is 8 bits
-	 * - no parity
-	 * - no break control
-	 * - disabled baud latch
-	 */
-	LCR_t lcr = {0};
-	set_lcr(uart0, &lcr);
+	// disable_all_uart_interrupt(uart0);
+	volatile uart_16550a_reg_t *reg = (uart_16550a_reg_t*)UART0;
+	reg->IER = 0; // disable_all_uart_interrupt
+
+	// set baud rate
+	/*----------------------------------------------------------------
+	All boards will typically have the 1.8432 MHZ crystal. Some Byte Runner boards will also allow selection of the 7.3728 MHZ clock.
+
+	BAUD RATE  1.8432 MHZ clock  7.3728 MHZ clock
+
+	50           2304               9216
+	75           1536               6144
+	110          1047               4188
+	134.5         857               3428
+	150           768               3072
+	300           384               1536
+	600           192                768
+	1200           96                384
+	2400           48                192
+	3600           32                128
+	4800           24                 96
+	7200           16                 64
+	9600           12                 48
+	19.2K           6                 24
+	38.4K           3                 12
+	57.6K           2                  8
+	115.2K          1                  4
+	230.4K       not possible          2
+	460.8K       not possible          1
+	------------------------------------------------------------*/
+	reg->LCR |= LCR_DIVISOR_LATCH_ENABLE;\
+	reg->DLL = 0x03;
+	reg->DLM = 0x0;
+	reg->LCR &= ~LCR_DIVISOR_LATCH_ENABLE;
+	reg->LCR |= LCR_STOP_BIT | LCR_WORD_LENGTH_8;
+	reg->IER |= IER_RHRI_ENABLE;
 }
 
 void uart_putc(char c)
 {
-	while (!is_transmit_holding_ready(uart0));
-	uart0->THR = c;
+	volatile uart_16550a_reg_t *reg = (uart_16550a_reg_t*)UART0;
+	while (!(reg->LSR & LSR_TRANSMIT_HOLDING_EMPTY)) {
+	}
+	reg->THR = c;
 }
 
-void uart_puts(char *s)
+void uart_puts(const char *s)
 {
 	while (*s) uart_putc(*s++);
+}
+
+uint8_t uart_getc(void)
+{
+	volatile uart_16550a_reg_t *reg = (uart_16550a_reg_t*)UART0;
+	if (reg->LSR & LSR_RECEIVE_DATA_READY){
+		return reg->RBR;
+	} else {
+		return 0xFF;
+	}
+}
+
+/*
+ * handle a uart interrupt, raised because input has arrived, called from trap.c.
+ */
+void uart_isr(void)
+{
+	while (1) {
+		int c = uart_getc();
+		if (c == 0xFF) {
+			break;
+		} else {
+			uart_putc((char)c);
+			uart_putc('\n');
+		}
+	}
 }

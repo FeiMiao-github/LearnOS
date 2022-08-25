@@ -2,7 +2,7 @@
 
     .section .text
     .globl __alltraps
-    .align 3
+    .align 4
 __alltraps:
     # move curret ctx pointer to t6
 	csrrw t6, mscratch, t6;                                             
