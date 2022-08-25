@@ -11,7 +11,8 @@ sources = [
     'switch.S',
     'trap.S',
     'trap.c',
-    'plic.c'
+    'plic.c',
+    'timer.c'
 ]
 
 objects = []

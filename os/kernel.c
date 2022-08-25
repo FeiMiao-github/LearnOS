@@ -5,12 +5,13 @@
 extern void page_alloc_test();
 #endif // PAGE_TEST
 
-void uart_init();
-void sched_init(void);
-void trap_init();
-void plic_init();
-void uart_puts(const char*);
-void schedule();
+extern void uart_init();
+extern void sched_init(void);
+extern void trap_init();
+extern void plic_init();
+extern void timer_init();
+extern void uart_puts(const char*);
+extern void schedule();
 
 int os_main(void)
 {
@@ -26,6 +27,7 @@ int os_main(void)
 
 	trap_init();
 	plic_init();
+	timer_init();
 	sched_init();
     schedule();
 

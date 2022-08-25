@@ -9,11 +9,13 @@ extern void __alltraps(void);
 extern int printf(const char* s, ...);
 extern uint32_t plic_claim(void);
 extern void plic_complete(uint32_t);
-extern void uart_isr(void);;
+extern void uart_isr(void);
+extern void timer_handler(void);
 
 static void print_exception(uint64_t mcause);
 static void print_interrupt(uint64_t mcause);
 static void handle_external_interrupt();
+static void handle_timer_interrupt();
 
 static uint64_t* ptmp = 0;
 static uint64_t tmp = 0;
@@ -67,6 +69,9 @@ void trap_handler(uint64_t mcause, context_t* ctx)
         {
             case 11: // external interrupt
                 handle_external_interrupt();
+                break;
+            case 7: // timer interrupt
+                handle_timer_interrupt();
                 break;
         }
     }
@@ -127,4 +132,9 @@ static void handle_external_interrupt()
     {
         plic_complete(ireq);
     }
+}
+
+static void handle_timer_interrupt()
+{
+    timer_handler();
 }
