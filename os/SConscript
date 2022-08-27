@@ -1,12 +1,12 @@
 Import('os_env')
 
 sources = [
-    'entry.S',
+    'start.S',
     'kernel.c',
     'uart.c',
     'page.c',
     'printf.c',
-    'app.S',
+    # 'app.S',
     'sched.c',
     'switch.S',
     'trap.S',

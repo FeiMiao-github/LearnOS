@@ -196,6 +196,13 @@ static inline uint64_t read_mstatus()
     return ret;
 }
 
+static inline uint64_t read_sp()
+{
+    uint64_t ret;
+    __asm__ volatile("mv %0, sp": "=g"(ret));
+    return ret;
+}
+
 static inline void fence()
 {
     __asm__ volatile("fence");

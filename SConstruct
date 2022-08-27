@@ -47,7 +47,7 @@ linkScript = 'os/linker.ld'
 os_env['LINKFLAGS'] += ' -T {}'.format(linkScript)
 os_env['CPPDEFINES'] = {
     'PAGE_TEST': None,
-    # 'TRAP_TEST': None,
+    'TRAP_TEST': None,
     'PREEMPTIVE_TEST': None
 }
 

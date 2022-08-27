@@ -7,7 +7,8 @@ __alltraps:
     # move curret ctx pointer to t6
 	csrrw t6, mscratch, t6;                                             
 																		
-	sd x1, 1*8(t6);                                                   
+	sd x1, 1*8(t6);
+	sd x2, 2*8(t6);
 	sd x3, 3*8(t6);                                                    
 	.set n, 5;                                                          
 	.rept 26;                                                           
@@ -35,7 +36,8 @@ __alltraps:
 	csrw mstatus, t0;
 	csrw mepc, t1;
 
-	ld x1, 1*8(t6);                                                   
+	ld x1, 1*8(t6);
+	ld x2, 2*8(t6);                                                  
 	ld x3, 3*8(t6);
 	.set n, 5; 
 	.rept 27;

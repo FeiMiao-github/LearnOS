@@ -13,7 +13,6 @@ static void timer_load(uint64_t interval)
 {
     uint64_t hartid = read_tp();
     *(uint64_t*)CLINT_MTIMECMP(hartid) = *(uint64_t*)CLINT_MTIME + interval;
-    printf("*(uint64_t*)CLINT_MTIMECMP(hartid): %lx\n", *(uint64_t*)CLINT_MTIMECMP(hartid));
 }
 
 void timer_init()
