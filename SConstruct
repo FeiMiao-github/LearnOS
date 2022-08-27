@@ -46,8 +46,9 @@ os_env = env.Clone()
 linkScript = 'os/linker.ld'
 os_env['LINKFLAGS'] += ' -T {}'.format(linkScript)
 os_env['CPPDEFINES'] = {
-    # 'PAGE_TEST': None,
-    'TRAP_TEST': None,
+    'PAGE_TEST': None,
+    # 'TRAP_TEST': None,
+    'PREEMPTIVE_TEST': None
 }
 
 os_objects = os_env.SConscript(dirs='os', variant_dir='build/os', duplicate=0, exports ='os_env')

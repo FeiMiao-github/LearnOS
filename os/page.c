@@ -3,8 +3,8 @@
 
 #define PAEG_BIT_OFFSET    (12)
 #define PAGE_SIZE          (4096)
-#define RESERVED_PAGE_NUM  (2 << 3)
-#define REVERSED_PAGE_SIZE (PAGE_SIZE << 3)
+#define RESERVED_PAGE_NUM  (2 << 4)
+#define REVERSED_PAGE_SIZE (PAGE_SIZE << 4)
 
 #define PAGE_USED (1)
 #define PAGE_END  (1 << 1)

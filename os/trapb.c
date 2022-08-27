@@ -46,6 +46,7 @@ typedef void(*user_entry_t)(void);
 typedef void(*trap_handler_t)(context_t* ctx);
 
 extern void user_main(void);
+extern void printf(const char * s, ...);
 
 static uint8_t USER_STACK[STACK_SIZE];
 static uint8_t KERN_STACK[STACK_SIZE];

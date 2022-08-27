@@ -12,6 +12,7 @@ extern void plic_init();
 extern void timer_init();
 extern void uart_puts(const char*);
 extern void schedule();
+extern void shutdown();
 
 int os_main(void)
 {
@@ -19,8 +20,8 @@ int os_main(void)
 
 	uart_init();
 	uart_puts("Hello OS!\n");
-
-	// page_init();
+	
+	page_init();
 #ifdef PAGE_TEST
 	page_alloc_test();
 #endif // PAGE_TEST
@@ -31,6 +32,7 @@ int os_main(void)
 	sched_init();
     schedule();
 
-	while (true);
+	// unreachable
+	shutdown();
 	return 0;
 }

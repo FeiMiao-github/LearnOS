@@ -134,7 +134,7 @@ typedef struct {
         uint64_t t6;
     };
     uint64_t mstatus;
-    uint64_t mpec;
+    uint64_t mepc;
 } context_t;
 
 typedef void(*trap_handler_t)();

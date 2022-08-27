@@ -5,7 +5,9 @@ display $sp
 display $pc
 # b __switch_to
 # b plic_init
-b trap_handler
-b __alltraps
+# b trap_handler
+# b __alltraps
+b __switch_to
+display $ra
 c
 # b schedule

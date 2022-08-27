@@ -21,6 +21,12 @@ __switch_to:
 	sd t6, 31*8(t5);                                                            
 1: 
 	csrw mscratch, a0;
+
+	ld t0, 32*8(a0);
+	ld t1, 33*8(a0);
+	csrw mstatus, t0;
+	csrw mepc, t1;
+
 	mv t6, a0;
 	ld x1, 1*8(t6);                                                   
 	ld x3, 3*8(t6);                                                   
@@ -29,4 +35,4 @@ __switch_to:
 		LOAD_GP % n t6;                                                       
 	.set n, n + 1;                                                      
 	.endr;
-	ret;
+	mret;

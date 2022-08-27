@@ -1,6 +1,7 @@
 #include "ctx.h"
 #include "riscv.h"
 #include "uart.h"
+#include <stdint.h>
 
 #define MAX_EXCEPTIONS (16)
 #define MAX_INTERRUPTS (12)
@@ -11,6 +12,8 @@ extern uint32_t plic_claim(void);
 extern void plic_complete(uint32_t);
 extern void uart_isr(void);
 extern void timer_handler(void);
+extern void schedule();
+extern void stop_cur_task_and_schedule();
 
 static void print_exception(uint64_t mcause);
 static void print_interrupt(uint64_t mcause);
@@ -78,8 +81,17 @@ void trap_handler(uint64_t mcause, context_t* ctx)
     else
     {
         print_exception(mcause);
-        ptmp = &tmp;
-        ctx->a5 = (uint64_t)ptmp;
+        uint16_t cause_code = mcause;
+        switch(cause_code)
+        {
+            case 0x1:
+                stop_cur_task_and_schedule();
+                break;
+            case 0x7:
+                ptmp = &tmp;
+                ctx->a5 = (uint64_t)ptmp;
+                break;
+        }
     }
 }
 
@@ -99,7 +111,7 @@ static void print_exception(uint64_t mcause)
     }
     else
     {
-        printf("%s (code: 0x%lx)\n", EXCEPTIONS[mcause], mcause);
+        printf("[E] %s (code: 0x%lx)\n", EXCEPTIONS[mcause], mcause);
     }
 }
 
@@ -111,7 +123,7 @@ static void print_interrupt(uint64_t mcause)
     }
     else
     {
-        printf("%s (code: 0x%lx)\n", INTERRUPTS[mcause], mcause);
+        printf("[I] %s (code: 0x%lx)\n", INTERRUPTS[mcause], mcause);
     }
 }
 
@@ -137,4 +149,7 @@ static void handle_external_interrupt()
 static void handle_timer_interrupt()
 {
     timer_handler();
+#ifdef PREEMPTIVE_TEST
+    schedule();
+#endif // PREEMPTIVE_TEST
 }

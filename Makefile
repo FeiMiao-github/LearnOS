@@ -1,6 +1,6 @@
 QEMU := qemu-system-riscv64
-QEMUFLAGS := -nographic -smp 1 -machine virt -bios none
-QEMUDBGFLAGS := -nographic -smp 1 -machine virt -bios none
+QEMUFLAGS := -nographic -smp 1 -M virt -bios none -m 256
+QEMUDBGFLAGS := -nographic -smp 1 -M virt -bios none -m 256
 # TARGET := bin/hello.bin
 KERNEL_BIN := bin/hello.bin
 KERNEL_ELF := bin/hello.elf

@@ -7,19 +7,18 @@
 
 extern void printf(const char *s, ...);
 
-static void timer_load(uint64_t interval);
-
 static uint64_t tick = 0;
-
-void timer_init()
-{
-    timer_load(TIMER_INTERVAL);
-}
 
 static void timer_load(uint64_t interval)
 {
     uint64_t hartid = read_tp();
     *(uint64_t*)CLINT_MTIMECMP(hartid) = *(uint64_t*)CLINT_MTIME + interval;
+    printf("*(uint64_t*)CLINT_MTIMECMP(hartid): %lx\n", *(uint64_t*)CLINT_MTIMECMP(hartid));
+}
+
+void timer_init()
+{
+    timer_load(TIMER_INTERVAL);
 
     // enable machine-mode timer interrupt
 	write_mie(read_mie() | MIE_MTIE);
