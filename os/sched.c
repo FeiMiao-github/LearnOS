@@ -2,9 +2,13 @@
 #include <stdint.h>
 #include "ctx.h"
 #include "clint.h"
+#include "lock.h"
 
 #define STACK_SIZE (512)
 #define TASK_NUM   (3)
+#define RETRY_TIMES (40)
+#define SUB_RETRY_TIMES (40)
+#define DELAY_RUN_TIMES (100000)
 
 typedef struct _stack_t {
     uint8_t* base;
@@ -19,6 +23,10 @@ typedef struct {
 extern int printf(const char* s, ...);
 extern void __switch_to(void* ctx);
 extern void shutdown();
+extern void trigger_sip();
+extern spin_lock_t* init_lock();
+extern void acquire_lock(spin_lock_t* lock);
+extern void release_lock(spin_lock_t* lock);
 
 void schedule();
 
@@ -51,11 +59,11 @@ typedef enum {
 static uint8_t const num_of_tasks = sizeof(task_context) / sizeof(context_t);
 static TASK_STATUS_T status[] = {Ready, Ready, Ready};
 static uint8_t current_task = num_of_tasks - 1;
-static uint64_t last_sp[] = {
-    (uint64_t)(stack_task[0] + STACK_SIZE - 1),
-    (uint64_t)(stack_task[1] + STACK_SIZE - 1),
-    (uint64_t)(stack_task[2] + STACK_SIZE - 1),
-};
+// static uint64_t last_sp[] = {
+//     (uint64_t)(stack_task[0] + STACK_SIZE - 1),
+//     (uint64_t)(stack_task[1] + STACK_SIZE - 1),
+//     (uint64_t)(stack_task[2] + STACK_SIZE - 1),
+// };
 
 static void task_delay(volatile int count)
 {
@@ -66,24 +74,35 @@ static void task_delay(volatile int count)
 static void task_yield()
 {
     printf("task yield !\n");
-    int id = read_tp();
-	*(uint32_t*)CLINT_MSIP(id) = 1;
+    trigger_sip();
 }
 
 static void task0()
 {
     uint64_t i = 0;
-    while (i++ < 100)
+#ifdef USE_LCK
+    spin_lock_t* lock = init_lock();
+#endif // USE_LCK
+    while (i++ < RETRY_TIMES)
     {
+#ifdef USE_LCK
+        acquire_lock(lock);
+#endif // USE_LCK
         printf("task 0 run start!\n");
-        uint64_t sp = read_sp();
-        printf("[SP] task0 sp: 0x%x, last sp:0x%x, read_sp: 0x%x \n", task_context[0].sp, last_sp[0], read_sp());
-        task_delay(10000);
-// #ifndef PREEMPTIVE_TEST
+        for (uint64_t j = 0; j < SUB_RETRY_TIMES; j++)
+        {
+            printf("task 0 running !\n");
+            // printf("[SP] task0 sp: 0x%x, last sp:0x%x, read_sp: 0x%x \n", task_context[0].sp, last_sp[0], read_sp());
+            task_delay(DELAY_RUN_TIMES);
+#ifndef PREEMPTIVE_TEST
         // schedule();
         // task_yield();
-// #endif // PREEMPTIVE_TEST
+#endif // PREEMPTIVE_TEST
+        }
         printf("task 0 run stop !\n");
+#ifdef USE_LCK
+        release_lock(lock);
+#endif // USE_LCK
     }
     printf("task 0 run stop [i is %lu] \n", i);
 }
@@ -91,14 +110,29 @@ static void task0()
 static void task1()
 {
     uint64_t i = 0;
-    while (i++ < 100)
+#ifdef USE_LCK
+    spin_lock_t* lock = init_lock();
+#endif // USE_LCK
+    while (i++ < RETRY_TIMES)
     {
-        printf("task 1 run!\n");
-        // printf("[SP] task1 sp: 0x%x, last sp:0x%x read_sp: 0x%x \n", task_context[1].sp, last_sp[1], read_sp());
-        task_delay(10000);
+#ifdef USE_LCK
+        acquire_lock(lock);
+#endif // USE_LCK
+        printf("task 1 run start !\n");
+        for (uint64_t j = 0; j < SUB_RETRY_TIMES; j++)
+        {
+            printf("task 1 running !\n");
+            // printf("[SP] task1 sp: 0x%x, last sp:0x%x read_sp: 0x%x \n", task_context[1].sp, last_sp[1], read_sp());
+            task_delay(DELAY_RUN_TIMES);
+        }
+        printf("task 1 run stop !\n");
 #ifndef PREEMPTIVE_TEST
         schedule();
 #endif // PREEMPTIVE_TEST
+
+#ifdef USE_LCK
+        release_lock(lock);
+#endif // USE_LCK
     }
     printf("task 1 run stop [i is %lu] \n", i);
 }
@@ -109,11 +143,11 @@ static void task2()
     void trap_test();
 #endif // TRAP_TEST
     uint64_t i = 0;
-    while (i++ < 100)
+    while (i++ < RETRY_TIMES)
     {
-        printf("task 2 run!\n");
-        printf("[SP] task2 sp: 0x%x, last sp:0x%x \n", task_context[2].sp, last_sp[2]);
-        task_delay(10000);
+        printf("task 2 run! \n");
+        // printf("[SP] task2 sp: 0x%x, last sp:0x%x \n", task_context[2].sp, last_sp[2]);
+        task_delay(DELAY_RUN_TIMES);
 #ifdef TRAP_TEST
         trap_test();
         // printf("return from exception !\n");
@@ -123,7 +157,7 @@ static void task2()
         schedule();
 #endif // PREEMPTIVE_TEST
     }
-    printf("task 2 run stop [i is %lu] \n", i);
+    printf("task 2 run stop [i is %llu] \n", i);
 }
 
 bool find_next_task()

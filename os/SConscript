@@ -13,7 +13,9 @@ sources = [
     'trap.c',
     'plic.c',
     'timer.c',
-    'sys.c'
+    'sys.c',
+    'sip.c',
+    'lock.c'
 ]
 
 objects = []

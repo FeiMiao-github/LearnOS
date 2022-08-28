@@ -14,11 +14,13 @@ extern void uart_isr(void);
 extern void timer_handler(void);
 extern void schedule();
 extern void stop_cur_task_and_schedule();
+extern void clean_sip();
 
 static void print_exception(uint64_t mcause);
 static void print_interrupt(uint64_t mcause);
 static void handle_external_interrupt();
 static void handle_timer_interrupt();
+static void handle_software_interrupt();
 
 static uint64_t* ptmp = 0;
 static uint64_t tmp = 0;
@@ -75,6 +77,9 @@ void trap_handler(uint64_t mcause, context_t* ctx)
                 break;
             case 7: // timer interrupt
                 handle_timer_interrupt();
+                break;
+            case 3: // software interrupt
+                handle_software_interrupt();
                 break;
         }
     }
@@ -149,6 +154,14 @@ static void handle_external_interrupt()
 static void handle_timer_interrupt()
 {
     timer_handler();
+#ifdef PREEMPTIVE_TEST
+    schedule();
+#endif // PREEMPTIVE_TEST
+}
+
+static void handle_software_interrupt()
+{
+    clean_sip();
 #ifdef PREEMPTIVE_TEST
     schedule();
 #endif // PREEMPTIVE_TEST

@@ -10,6 +10,7 @@ extern void sched_init(void);
 extern void trap_init();
 extern void plic_init();
 extern void timer_init();
+extern void sip_init();
 extern void uart_puts(const char*);
 extern void schedule();
 extern void shutdown();
@@ -30,6 +31,7 @@ int os_main(void)
 	plic_init();
 	timer_init();
 	sched_init();
+	sip_init();
     schedule();
 
 	// unreachable

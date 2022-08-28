@@ -39,7 +39,7 @@ void uart_init()
 	230.4K       not possible          2
 	460.8K       not possible          1
 	------------------------------------------------------------*/
-	reg->LCR |= LCR_DIVISOR_LATCH_ENABLE;\
+	reg->LCR |= LCR_DIVISOR_LATCH_ENABLE;
 	reg->DLL = 0x03;
 	reg->DLM = 0x0;
 	reg->LCR &= ~LCR_DIVISOR_LATCH_ENABLE;
